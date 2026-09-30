@@ -77,4 +77,5 @@ def main():
     print("Wrote {} segments to {}".format(len(segments), output_path))
 
 if __name__ == "__main__":
+    print("This splits by the [chapter] marker")
     main()

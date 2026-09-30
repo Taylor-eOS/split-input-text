@@ -52,4 +52,5 @@ def main():
     print_report(stats)
 
 if __name__ == "__main__":
+    print("This splits by the [chapter] marker")
     main()
