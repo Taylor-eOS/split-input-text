@@ -1,16 +1,20 @@
 input_path = "input.txt"
 split_marker = "[chapter]"
+fallback_marker = "\n\n"
 top_n = 10
 
 def read_source_text():
     with open(input_path, "r", encoding="utf-8") as f:
         return f.read()
 
+def select_split_marker(text):
+    global split_marker
+    if not text.lstrip().startswith(split_marker):
+        split_marker = fallback_marker
+
 def split_into_chapters(text):
     parts = text.split(split_marker)
-    if parts and parts[0].strip() == "":
-        parts = parts[1:]
-    return parts
+    return [part for part in parts if part.strip() != ""]
 
 def build_chapter_stats(chapters):
     stats = []
@@ -29,7 +33,7 @@ def build_chapter_stats(chapters):
 def print_report(stats):
     total_chapters = len(stats)
     if total_chapters == 0:
-        print("No chapters found using marker: " + split_marker)
+        print("No chapters found using marker: {!r}".format(split_marker))
         return
     total_chars = sum(s["char_count"] for s in stats)
     total_words = sum(s["word_count"] for s in stats)
@@ -47,10 +51,11 @@ def print_report(stats):
 
 def main():
     text = read_source_text()
+    select_split_marker(text)
+    print("Splitting by {!r}".format(split_marker))
     chapters = split_into_chapters(text)
     stats = build_chapter_stats(chapters)
     print_report(stats)
 
 if __name__ == "__main__":
-    print("This splits by the [chapter] marker")
     main()
