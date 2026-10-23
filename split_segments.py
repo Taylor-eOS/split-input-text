@@ -2,7 +2,8 @@ input_path = "input.txt"
 output_path = "output.txt"
 split_marker = "[chapter]"
 default_max_chars = 20000
-max_chars = int(input(f"Max characters ({default_max_chars}): ")) or default_max_chars
+raw = input(f"Max characters ({default_max_chars}): ")
+max_chars = int(raw) if raw.strip() else default_max_chars
 
 def read_source_text():
     with open(input_path, "r", encoding="utf-8") as f:
